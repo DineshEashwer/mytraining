@@ -1,4 +1,38 @@
 const guidslistdata = document.querySelector(".guides");
+const logoutui = document.querySelectorAll(".logged-out");
+const loginui = document.querySelectorAll(".logged-in");
+const Accountui = document.querySelector(".account-details");
+
+const setupUI = (user) => {
+  if (user) {
+    db.collection("usersbio")
+      .doc(user.uid)
+      .get()
+      .then(
+        (querySnapshot) => {
+          const htmlcode = `<div align="left"> <li>User Name :${user.email}</li>
+          <li>last Login Time : ${user.metadata.lastSignInTime}</li>
+          <li>First name : ${querySnapshot.data().Fname}</li>
+
+          <li>Last name : ${querySnapshot.data().Lname}</li>
+          <li>Ae : ${querySnapshot.data().Age}</li>
+
+          </div>`;
+          Accountui.innerHTML = htmlcode;
+        },
+        (err) => {
+          console.log(err.message);
+        }
+      );
+
+    loginui.forEach((items) => (items.style.display = "block"));
+    logoutui.forEach((items) => (items.style.display = "none"));
+  } else {
+    Accountui.innerHTML = "";
+    loginui.forEach((items) => (items.style.display = "none"));
+    logoutui.forEach((items) => (items.style.display = "block"));
+  }
+};
 //setup uid
 const setupguide = (data) => {
   let uiguide = "";

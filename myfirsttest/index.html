@@ -8,6 +8,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <!--boot strap-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <title>GameGuidez</title>
 </head>
@@ -20,22 +23,22 @@
         <img src="img/logo.svg" style="width: 180px; margin-top: 10px;">
       </a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="logged-in">
+          <li class="logged-in" style="display: none;">
             <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
           </li>
-         
-          <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-create">Create Guide</a>
-          </li>
-          <li class="logged-out">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
-          </li>
-          <li class="logged-out">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
-          </li>
-          <li class="logged-in">
+          <li class="logged-in"style="display: none;">
             <a href="#" class="grey-text" id="logout">Logout</a>
           </li>
+          <li class="logged-in"style="display: none;">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-Add">Create Note</a>
+          </li>
+          <li class="logged-out"style="display: none;">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+          </li>
+          <li class="logged-out"style="display: none;">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+          </li>
+         
         </span>
       </ul>
     </div>
@@ -54,11 +57,24 @@
           <input type="password" id="signup-password" required />
           <label for="signup-password">Choose password</label>
         </div>
-        <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+        <div class="input-field">
+          <input type="text" id="Fname" required />
+          <label for="signup-Fname">First Name</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="lname" required />
+          <label for="signup-lname">last Name</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="age" required />
+          <label for="signup-age">Age</label>
+        </div>
+       
+       <div> <button class="btn yellow darken-2 z-depth-0">Sign up</button></div>
       </form>
     </div>
   </div>
-
+ 
   <!-- LOGIN MODAL -->
   <div id="modal-login" class="modal">
     <div class="modal-content">
@@ -85,20 +101,20 @@
     </div>
   </div>
 
-  <!-- CREATE GUIDE MODAL -->
-  <div id="modal-create" class="modal">
+  <!-- CREATE NOTE MODAL -->
+  <div id="modal-Add" class="modal">
     <div class="modal-content">
-      <h4>Create Guide</h4><br />
-      <form id="create-form">
+      <h4>Create Note</h4><br />
+      <form id="add_form">
         <div class="input-field">
           <input type="text" id="title" required>
-          <label for="title">Guide Title</label>
+          <label for="title">note Title</label>
         </div>
         <div class="input-field">
-          <textarea id="content" class="materialize-textarea" required></textarea>
-          <label for="content">Guide Content</label>
+          <textarea id="projectname" class="materialize-textarea" required></textarea>
+          <label for="project name">project name</label>
         </div>
-        <button class="btn yellow darken-2 z-depth-0">Create</button>
+        <button class="btn yellow darken-2 z-depth-0">ADD</button>
       </form>
     </div>
   </div>

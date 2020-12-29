@@ -1,17 +1,19 @@
-//db connect
-
-//status of user
-
+//check login
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     // User is signed in.
-    db.collection("userdata")
-      .get()
-      .then((querySnapshot) => {
+    db.collection("userdata").onSnapshot(
+      (querySnapshot) => {
         setupguide(querySnapshot.docs);
-      });
+        setupUI(user);
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
   } else {
     // User is signed out.
+    setupUI();
     setupguide([]);
   }
 });
@@ -25,6 +27,13 @@ singnupform.addEventListener("submit", (e) => {
   //creat user
   Auth.createUserWithEmailAndPassword(eid, pid)
     .then((response) => {
+      return db.collection("usersbio").doc(response.user.uid).set({
+        Fname: singnupform["Fname"].value,
+        Lname: singnupform["lname"].value,
+        Age: singnupform["age"].value,
+      });
+    })
+    .then(() => {
       const modal = document.querySelector("#modal-signup");
       M.Modal.getInstance(modal).close();
       singnupform["signup-email"].value = "";
@@ -38,7 +47,15 @@ singnupform.addEventListener("submit", (e) => {
 const lout = document.querySelector("#logout");
 lout.addEventListener("click", (e) => {
   e.preventDefault();
-  Auth.signOut();
+  firebase
+    .auth()
+    .signOut()
+    .then(function () {
+      // Sign-out successful.
+    })
+    .catch(function (error) {
+      // An error happened.
+    });
 });
 //loin user
 
@@ -55,5 +72,23 @@ loginForm.addEventListener("submit", (e) => {
     })
     .catch(function (error) {
       console.log(error);
+    });
+});
+//add data to firebase
+const createform = document.querySelector("#add_form");
+createform.addEventListener("submit", (e) => {
+  e.preventDefault();
+  db.collection("userdata")
+    .add({
+      title: createform["title"].value,
+      project: createform["projectname"].value,
+    })
+    .then(() => {
+      // close form
+      const modal = document.querySelector("#modal-Add");
+      M.Modal.getInstance(modal).close();
+    })
+    .catch(function (error) {
+      console.log(error.message);
     });
 });
