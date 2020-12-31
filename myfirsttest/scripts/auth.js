@@ -21,12 +21,18 @@ firebase.auth().onAuthStateChanged((user) => {
 const singnupform = document.querySelector("#signup-form");
 singnupform.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const eid = singnupform["signup-email"].value;
   const pid = singnupform["signup-password"].value;
   //creat user
   Auth.createUserWithEmailAndPassword(eid, pid)
     .then((response) => {
+      //uplode image
+      var image = document.getElementById("image").files[0];
+      var storageRef = Fstorage.ref(
+        "images/" + response.user.uid + "/profile"
+      ).put(image);
+
+      //uplode data
       return db.collection("usersbio").doc(response.user.uid).set({
         Fname: singnupform["Fname"].value,
         Lname: singnupform["lname"].value,
@@ -38,6 +44,10 @@ singnupform.addEventListener("submit", (e) => {
       M.Modal.getInstance(modal).close();
       singnupform["signup-email"].value = "";
       singnupform["signup-password"].value = "";
+      singnupform["Fname"].value = "";
+      singnupform["lname"].value = "";
+      singnupform["age"].value = "";
+      singnupform["image"].value = "";
     })
     .catch(function (error) {
       console.log(error);

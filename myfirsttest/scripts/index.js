@@ -2,21 +2,31 @@ const guidslistdata = document.querySelector(".guides");
 const logoutui = document.querySelectorAll(".logged-out");
 const loginui = document.querySelectorAll(".logged-in");
 const Accountui = document.querySelector(".account-details");
-
 const setupUI = (user) => {
   if (user) {
+    const urlParams = "";
+    Fstorage.ref("images/" + user.uid + "/profile")
+      .getDownloadURL()
+      .then((url) => {
+        document.getElementById("pimage").src = url;
+      })
+      .catch((e) => {
+        document.getElementById("pimage").src = "";
+      });
     db.collection("usersbio")
       .doc(user.uid)
       .get()
       .then(
         (querySnapshot) => {
-          const htmlcode = `<div align="left"> <li>User Name :${user.email}</li>
+          const htmlcode = `<div align="left"> 
+         
+          <li>User Name :${user.email}</li>
           <li>last Login Time : ${user.metadata.lastSignInTime}</li>
           <li>First name : ${querySnapshot.data().Fname}</li>
 
           <li>Last name : ${querySnapshot.data().Lname}</li>
           <li>Ae : ${querySnapshot.data().Age}</li>
-
+         
           </div>`;
           Accountui.innerHTML = htmlcode;
         },

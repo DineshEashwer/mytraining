@@ -1,0 +1,22 @@
+const function =require('firebasefunction');
+const admim=require('firebaseadmin');
+admin.initializApp();
+
+exports.addAdminRole=functions.https.onCall((data),context)=>{
+//check admin permition
+if(context.auth.token.admin!==true){
+    return{error:'insufecent permition'}
+}
+    //add userclame admin
+    return admin.auth().getUserByEmail(data.email).then(user=>{
+        return admin.auth().setCustomeUserClaims(user.uid),{
+            admin:true
+        });
+    }).then(()=>{
+        return {
+            message:Success!${user.email} has created admin'
+        }
+    }).catch(err=>{
+    return err;
+    });
+});
